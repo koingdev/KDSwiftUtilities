@@ -94,7 +94,7 @@ public extension UIAlertController {
         }
         
         @discardableResult
-        public func addCustomAction(_ title: String, style: UIAlertActionStyle = .default, _ handler: Handler = nil) -> Self {
+		public func addCustomAction(_ title: String, style: UIAlertAction.Style = .default, _ handler: Handler = nil) -> Self {
             let action = Action(title: title, style: style, handler: handler)
             alert.addAction(action)
             return self

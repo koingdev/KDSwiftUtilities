@@ -58,16 +58,16 @@ extension Storyboarder where Self: UIViewController {
 extension UIViewController: Storyboarder {
     
     public func add(childVC: UIViewController, to wrapper: UIView) {
-        addChildViewController(childVC)
+		addChild(childVC)
         wrapper.addSubview(childVC.view)
         childVC.view.frame = wrapper.bounds
-        childVC.didMove(toParentViewController: self)
+		childVC.didMove(toParent: self)
     }
     
     public func remove() {
         guard parent != nil else { return }
-        willMove(toParentViewController: nil)
-        removeFromParentViewController()
+		willMove(toParent: nil)
+		removeFromParent()
         view.removeFromSuperview()
     }
     
