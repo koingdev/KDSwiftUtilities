@@ -14,34 +14,37 @@ extension UIAlertController {
     
     public typealias Alert = UIAlertController
     public typealias Action = UIAlertAction
-    public typealias Handler = ((Action) -> Void)?
+    public typealias Block = ((Alert) -> Void)?
     
     // MARK: - Static function
     
-    public static func alertOkay(title: String, message: Any = "", handler: Handler = nil) {
+    static func alertOkay(title: String, message: Any = "", completion: Block = nil) {
         UIAlertController.Builder()
             .withTitleAndMessage(title: title, message: message)
-            .addOkAction(handler)
+            .addOkAction(completion: completion)
             .show()
     }
     
-    public static func alertTextField(title: String,
-                                      numberOfField: Int = 1,
-                                      placeholders: [String] = [],
-                                      isSecureTexts: [Bool] = [],
-                                      message: Any = "",
-                                      then: (([String]) -> Void)? = nil) {
-        let builder = UIAlertController.Builder()
-        builder.withTitleAndMessage(title: title, message: message)
-			.addOkCancelAction(okayHandler: { _ in
-				guard let then = then else { return }
-				var texts = [String]()
-				builder.alert.textFields?.forEach { texts.append($0.text ?? "") }
-				then(texts)
-				builder.alert = nil    // Avoid retain cycle
-			}, cancelHandler: { _ in builder.alert = nil })
-			.addTextField(numberOfField: numberOfField, placeholders: placeholders, isSecureTexts: isSecureTexts)
-			.show()
+    static func alertOkayCancel(title: String, message: Any = "", completion: Block = nil) {
+        UIAlertController.Builder()
+            .withTitleAndMessage(title: title, message: message)
+            .addCancelAction()
+            .addOkAction(completion: completion)
+            .show()
+    }
+    
+    static func alertTextField(title: String,
+                               message: Any = "",
+                               numberOfField: Int = 1,
+                               placeholders: [String] = [],
+                               isSecureTexts: [Bool] = [],
+                               completion: Block = nil) {
+        UIAlertController.Builder()
+            .withTitleAndMessage(title: title, message: message)
+            .withTextField(numberOfField: numberOfField, placeholders: placeholders, isSecureTexts: isSecureTexts)
+            .addCancelAction()
+            .addOkAction(completion: completion)
+            .show()
     }
     
     // MARK: - Builder
@@ -50,14 +53,12 @@ extension UIAlertController {
         
         private var alert: Alert! = Alert(title: "", message: "", preferredStyle: .alert)
 		
-		enum ActionType: CaseIterable {
-			case ok
-			case cancel
-			case custom
-		}
-		
+        deinit {
+            print("GONE")
+        }
+        
         @discardableResult
-		func withTitleAndMessage(title: String = "Title", message: Any = "Message") -> Self {
+		func withTitleAndMessage(title: String = "", message: Any = "") -> Self {
 			alert.title = title
 			if let message = message as? String {
 				alert.message = message
@@ -67,74 +68,46 @@ extension UIAlertController {
 			}
             return self
         }
-		
-		func addActions(_ actionTypes: (ActionType, ActionType), completion: @escaping () -> Void) -> Self {
-			// Aux functions
-			func setAction(title: String, style: UIAlertAction.Style = .default, completion: @escaping () -> Void) {
-				let action = Action(title: title, style: .cancel) { _ in
-					completion()
-				}
-				alert.addAction(action)
-			}
-			func apply(actionType: ActionType) {
-				switch actionType {
-				case .ok:
-					setAction(title: "Okay", completion: completion)
-				case .cancel:
-					setAction(title: "Cancel", style: .cancel, completion: completion)
-				case .custom:
-					
-				}
-			}
-		}
         
         @discardableResult
-        public func addOkAction(_ handler: Handler = nil) -> Self {
-            let title = "Okay"
-            let action = Action(title: title, style: .default, handler: handler)
-            alert.addAction(action)
-            return self
-        }
-        
-        @discardableResult
-        public func addCancelAction(_ handler: Handler = nil) -> Self {
-            let title = "Cancel"
-            let action = Action(title: title, style: .cancel, handler: handler)
-            alert.addAction(action)
-            return self
-        }
-        
-        @discardableResult
-        public func addOkCancelAction(okayHandler: Handler = nil, cancelHandler: Handler = nil) -> Self {
-            return addOkAction(okayHandler).addCancelAction(cancelHandler)
-        }
-        
-        @discardableResult
-		public func addCustomAction(_ title: String, style: UIAlertAction.Style = .default, _ handler: Handler = nil) -> Self {
-            let action = Action(title: title, style: style, handler: handler)
-            alert.addAction(action)
-            return self
-        }
-        
-        @discardableResult
-        public func addTextField(numberOfField: Int = 1,
-                                 placeholders: [String?] = [],
-                                 isSecureTexts: [Bool?] = []) -> Self {
+        func withTextField(numberOfField: Int = 1, placeholders: [String] = [], isSecureTexts: [Bool] = []) -> Self {
             for i in 0 ..< numberOfField {
                 alert.addTextField { tf in
                     if placeholders.count == numberOfField {
                         tf.placeholder = placeholders[i]
                     }
                     if isSecureTexts.count == numberOfField {
-                        tf.isSecureTextEntry = isSecureTexts[i] ?? false
+                        tf.isSecureTextEntry = isSecureTexts[i]
                     }
                 }
             }
             return self
         }
         
-        public func show(then: (() -> Void)? = nil) {
-            UIViewController.topMostViewController.present(alert, animated: true, completion: then)
+        @discardableResult
+        func addOkAction(completion: Block = nil) -> Self {
+            return addAction(title: "Okay", completion: completion)
+        }
+        
+        @discardableResult
+        func addCancelAction(completion: Block = nil) -> Self {
+            return addAction(title: "Cancel", style: .cancel, completion: completion)
+        }
+        
+        @discardableResult
+        func addAction(title: String, style: UIAlertAction.Style = .default, completion: Block = nil) -> Self {
+            let action = Action(title: title, style: style) { _ in
+                completion?(self.alert)
+                self.alert = nil
+            }
+            alert.addAction(action)
+            return self
+        }
+        
+        func show(completion: (() -> Void)? = nil) {
+            Queue.main {
+                UIViewController.topMostViewController.present(self.alert, animated: true, completion: completion)
+            }
         }
         
     }
