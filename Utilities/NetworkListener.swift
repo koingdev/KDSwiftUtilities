@@ -11,7 +11,7 @@ import Reachability
 
 final class NetworkListener {
     
-	private let notification = Notification.Name("NetworkListenerHelperStatusDidChange")
+	private let notification = Notification.Name("NetworkListenerStatusDidChanged")
 	private let reachability: Reachability!
 	private var isEndPointReachable: Bool!
 	
