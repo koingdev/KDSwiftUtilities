@@ -5,47 +5,26 @@
 //  Created by KoingDev on 2018/08/03.
 //  Copyright © 2018 KoingDev. All rights reserved.
 //
+
 import Foundation
 import Reachability
 
-public protocol NetworkListener: AnyObject {
-
-    /// Function to handle on network status changed
-    ///
-    /// - Parameter isEndPointReachable: flag
-    func networkStatusDidChange(isEndPointReachable: Bool)
-
-}
-
-extension NetworkListener where Self: NSObject {
-	
-	func startMonitoring() {
-		NotificationCenter.default.addObserver(forName: NetworkListenerHelper.notificationName, object: nil, queue: OperationQueue.main) { [weak self] notification in
-			self?.networkStatusDidChange(isEndPointReachable: NetworkListenerHelper.instance.isEndPointReachable)
-		}
-	}
-	
-}
-
-public final class NetworkListenerHelper {
+final class NetworkListener {
     
-    public static let instance = NetworkListenerHelper()
-	fileprivate static let notificationName = Notification.Name("NetworkListenerHelperStatusDidChange")
-	fileprivate let reachability: Reachability!
-	var isEndPointReachable: Bool!
+	private let notification = Notification.Name("NetworkListenerHelperStatusDidChange")
+	private let reachability: Reachability!
+	private var isEndPointReachable: Bool!
 	
-	static func enable() {
-		_ = instance
-	}
-	
-    private init() {
+    init() {
 		guard let safeReachability = Reachability() else {
 			reachability = Reachability()
 			return
 		}
 		reachability = safeReachability
+		
 		// initialize connection state
 		isEndPointReachable = reachability.connection != .none
+		
 		NotificationCenter.default.addObserver(forName: Notification.Name.reachabilityChanged,
 											   object: nil,
 											   queue: OperationQueue.main) { [weak self] notification in
@@ -53,13 +32,24 @@ public final class NetworkListenerHelper {
 			let newConnectionState = self.reachability.connection != .none
 			if self.isEndPointReachable != newConnectionState {
 				self.isEndPointReachable = newConnectionState
-				NotificationCenter.default.post(name: NetworkListenerHelper.notificationName, object: nil)
+				NotificationCenter.default.post(name: self.notification, object: nil)
 			}
 		}
+		
 		do {
 			try reachability.startNotifier()
 		} catch {
-			debugPrint("Could not start reachability notifier")
+			dPrint("Could not start reachability notifier")
+		}
+	}
+	
+	/// Start monitoring network status changed
+	///
+	/// - Parameter networkStatusDidChange: status changed callback
+	func detectNetworkStatusChanged(completion: @escaping (Bool) -> Void) {
+		NotificationCenter.default.addObserver(forName: notification, object: nil, queue: OperationQueue.main) { [weak self] notification in
+			guard let self = self else { return }
+			completion(self.isEndPointReachable)
 		}
 	}
     
