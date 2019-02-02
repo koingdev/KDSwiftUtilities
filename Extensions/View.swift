@@ -1,12 +1,95 @@
 //
 //  View.swift
-//  KDSwiftUtilities
+//  SwiftUtilities
 //
 //  Created by KoingDev on 2/2/19.
 //  Copyright © 2019 KoingDev. All rights reserved.
 //
 
 import UIKit
+
+#warning("UIView: Add pop in animation and gradient ?")
+extension UIView {
+    
+    @IBInspectable var rotationAngle: CGFloat {
+        get {
+            return 0
+        }
+        set {
+//            transform = CGAffineTransform(rotationAngle: rotationAngle * .pi / 180)
+            transform.rotated(by: rotationAngle)
+        }
+    }
+    
+    // MARK: - Border
+    
+    @IBInspectable var cornerRadius: CGFloat {
+        get {
+            return layer.cornerRadius
+        }
+        set {
+            layer.cornerRadius = newValue
+            layer.masksToBounds = newValue > 0
+        }
+    }
+    
+    @IBInspectable var borderWidth: CGFloat {
+        get {
+            return layer.borderWidth
+        }
+        set {
+            layer.borderWidth = newValue
+        }
+    }
+    
+    @IBInspectable var borderColor: UIColor? {
+        get {
+            return UIColor(cgColor: layer.borderColor ?? UIColor.clear.cgColor)
+        }
+        set {
+            layer.borderColor = newValue?.cgColor
+        }
+    }
+    
+    // MARK: - Shadow
+    
+    @IBInspectable var shadowOpacity: Float {
+        get {
+            return layer.shadowOpacity
+        }
+        set {
+            layer.shadowOpacity = shadowOpacity
+        }
+    }
+    
+    @IBInspectable var shadowColor: UIColor {
+        get {
+            return UIColor(cgColor: layer.shadowColor ?? UIColor.clear.cgColor)
+        }
+        set {
+            layer.shadowColor = shadowColor.cgColor
+        }
+    }
+    
+    @IBInspectable var shadowRadius: CGFloat {
+        get {
+            return layer.shadowRadius
+        }
+        set {
+            layer.shadowRadius = shadowRadius
+        }
+    }
+    
+    @IBInspectable var shadowOffsetY: CGFloat {
+        get {
+            return layer.shadowOffset.height
+        }
+        set {
+            layer.shadowOffset.height = shadowOffsetY
+        }
+    }
+    
+}
 
 // MARK: Auto Layout Extension
 
