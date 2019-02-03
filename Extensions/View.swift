@@ -1,6 +1,6 @@
 //
 //  View.swift
-//  SwiftUtilities
+//  KDSwiftUtilities
 //
 //  Created by KoingDev on 2/2/19.
 //  Copyright © 2019 KoingDev. All rights reserved.
