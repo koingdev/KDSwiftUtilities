@@ -161,7 +161,7 @@ extension UIView {
     
     func popIn(duration: TimeInterval = 0.8, completion: (() -> Void)? = nil) {
         transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-        UIView.animate(withDuration: 0.8, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: .allowUserInteraction, animations: {
+        UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: .allowUserInteraction, animations: {
             self.transform = CGAffineTransform.identity
         }, completion: { _ in
             completion?()

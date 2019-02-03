@@ -13,7 +13,8 @@ final class NetworkListener {
     
 	private let notification = Notification.Name("NetworkListenerStatusDidChanged")
 	private let reachability: Reachability!
-	private var isEndPointReachable: Bool!
+    /// Return true if connected to Internet
+	private(set) var isConnected: Bool!
 	
     init() {
 		guard let safeReachability = Reachability() else {
@@ -23,15 +24,15 @@ final class NetworkListener {
 		reachability = safeReachability
 		
 		// initialize connection state
-		isEndPointReachable = reachability.connection != .none
+		isConnected = reachability.connection != .none
 		
 		NotificationCenter.default.addObserver(forName: Notification.Name.reachabilityChanged,
 											   object: nil,
 											   queue: OperationQueue.main) { [weak self] notification in
 			guard let self = self else { return }
 			let newConnectionState = self.reachability.connection != .none
-			if self.isEndPointReachable != newConnectionState {
-				self.isEndPointReachable = newConnectionState
+			if self.isConnected != newConnectionState {
+				self.isConnected = newConnectionState
 				NotificationCenter.default.post(name: self.notification, object: nil)
 			}
 		}
@@ -46,10 +47,10 @@ final class NetworkListener {
 	/// Start monitoring network status changed
 	///
 	/// - Parameter networkStatusDidChange: status changed callback
-	func detectNetworkStatusChanged(completion: @escaping (Bool) -> Void) {
+	func observeNetworkStatusChanged(completion: @escaping (Bool) -> Void) {
 		NotificationCenter.default.addObserver(forName: notification, object: nil, queue: OperationQueue.main) { [weak self] notification in
 			guard let self = self else { return }
-			completion(self.isEndPointReachable)
+			completion(self.isConnected)
 		}
 	}
     
