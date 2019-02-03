@@ -8,7 +8,7 @@
 
 import UIKit
 
-private var labelLocalizeAssociationKey = 0
+private var labelLocalizeAssociationKey: UInt8 = 0
 
 extension UILabel {
 	
