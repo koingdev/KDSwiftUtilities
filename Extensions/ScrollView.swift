@@ -12,7 +12,7 @@ extension UIScrollView {
     
     /// Takes a snapshot of an entire ScrollView
     ///
-    ///    AnySubclassOfUIScroolView().snapshot
+    ///    AnySubclassOfUIScrollView().snapshot
     ///    UITableView().snapshot
     ///
     /// - Returns: Snapshot as UIImage for rendered ScrollView
