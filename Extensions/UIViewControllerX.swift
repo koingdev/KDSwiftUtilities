@@ -34,7 +34,7 @@ extension Storyboarder where Self: UIViewController {
     /// Instantiates and returns the view controller
     ///
     /// - Returns: View controller corresponding to the specified identifier string
-    static func instance() -> Self {
+    static func instantiate() -> Self {
         let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
 		// Is Initial View Controller ?
 		if let vc = storyboard.instantiateInitialViewController() as? Self {
