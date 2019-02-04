@@ -1,5 +1,5 @@
 //
-//  TableView+Cell.swift
+//  UITableViewX.swift
 //  KDSwiftUtilities
 //
 //  Created by KoingDev on 2018/08/03.

@@ -1,5 +1,5 @@
 //
-//  ScrollView.swift
+//  UIScrollViewX.swift
 //  KDSwiftUtilities
 //
 //  Created by KoingDev on 2/3/19.

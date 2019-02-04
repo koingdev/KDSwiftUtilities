@@ -1,5 +1,5 @@
 //
-//  View.swift
+//  UIViewX.swift
 //  KDSwiftUtilities
 //
 //  Created by KoingDev on 2/2/19.
