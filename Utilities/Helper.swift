@@ -10,18 +10,6 @@ import Foundation
 import UIKit.UIApplication
 import UserNotifications
 
-////////////////////////////////////////////////////////////////
-//MARK: -
-//MARK: Helper Methods
-//MARK: -
-////////////////////////////////////////////////////////////////
-
-func dPrint(_ item: Any) {
-	#if DEBUG
-		Swift.print("DEBUG: \(item)\n")
-	#endif
-}
-
 /// Check if user allows push notification or not
 ///
 /// - Parameter completion: Result callback (Background Thread).
