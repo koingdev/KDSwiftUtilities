@@ -98,7 +98,7 @@ extension UIAlertController {
 		func addAction(title: String, style: UIAlertAction.Style = .default, completion: Block = nil) -> Self {
 			let action = Action(title: title, style: style) { _ in
 				completion?(self.alert)
-				self.alert = nil
+				self.alert = nil	// Avoid leak
 			}
 			alert.addAction(action)
 			return self
