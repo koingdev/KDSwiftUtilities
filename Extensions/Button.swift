@@ -8,19 +8,27 @@
 
 import UIKit
 
-private var buttonBounceableAssociationKey: UInt8 = 0
-private var buttonLocalizeAssociationKey: UInt8 = 0
+// MARK: Associated Key
+
+extension UIButton {
+	
+	fileprivate struct AssociatedKeys {
+		static var BounceableKey: UInt8 = 0
+		static var LocalizationKey: UInt8 = 0
+	}
+	
+}
 
 extension UIButton {
 	
 	@IBInspectable
 	var localize: String {
 		get {
-			let localize = objc_getAssociatedObject(self, &buttonLocalizeAssociationKey) as? String
+			let localize = objc_getAssociatedObject(self, &AssociatedKeys.LocalizationKey) as? String
 			return localize ?? ""
 		}
 		set {
-			objc_setAssociatedObject(self, &buttonLocalizeAssociationKey, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
+			objc_setAssociatedObject(self, &AssociatedKeys.LocalizationKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
 			setTitle(localize.localized, for: .normal)
 		}
 	}
@@ -30,11 +38,11 @@ extension UIButton {
 	@IBInspectable
 	var bounceable: Bool {
 		get {
-			let bounceable = objc_getAssociatedObject(self, &buttonBounceableAssociationKey) as? Bool
+			let bounceable = objc_getAssociatedObject(self, &AssociatedKeys.BounceableKey) as? Bool
 			return bounceable ?? false
 		}
 		set {
-			objc_setAssociatedObject(self, &buttonBounceableAssociationKey, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
+			objc_setAssociatedObject(self, &AssociatedKeys.BounceableKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
 		}
 	}
 	

@@ -8,9 +8,17 @@
 
 import UIKit
 
-private var gradientFirstColorAssociationKey: UInt8 = 0
-private var gradientSecondColorAssociationKey: UInt8 = 0
-private var gradientHorizontalAssociationKey: UInt8 = 0
+// MARK: Associated Key
+
+extension UIView {
+	
+	fileprivate struct AssociatedKeys {
+		static var GradientFirstColorKey: UInt8 = 0
+		static var GradientSecondColorKey: UInt8 = 0
+		static var GradientHorizontalKey: UInt8 = 0
+	}
+	
+}
 
 extension UIView {
 	
@@ -32,33 +40,33 @@ extension UIView {
 	
 	@IBInspectable var firstColor: UIColor {
 		get {
-			let firstColor = objc_getAssociatedObject(self, &gradientFirstColorAssociationKey) as? UIColor
+			let firstColor = objc_getAssociatedObject(self, &AssociatedKeys.GradientFirstColorKey) as? UIColor
 			return firstColor ?? UIColor.clear
 		}
 		set {
-			objc_setAssociatedObject(self, &gradientFirstColorAssociationKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_COPY_NONATOMIC)
+			objc_setAssociatedObject(self, &AssociatedKeys.GradientFirstColorKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
 			applyGradient()
 		}
 	}
 
 	@IBInspectable var secondColor: UIColor {
 		get {
-			let secondColor = objc_getAssociatedObject(self, &gradientSecondColorAssociationKey) as? UIColor
+			let secondColor = objc_getAssociatedObject(self, &AssociatedKeys.GradientSecondColorKey) as? UIColor
 			return secondColor ?? UIColor.clear
 		}
 		set {
-			objc_setAssociatedObject(self, &gradientSecondColorAssociationKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_COPY_NONATOMIC)
+			objc_setAssociatedObject(self, &AssociatedKeys.GradientSecondColorKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
 			applyGradient()
 		}
 	}
 
 	@IBInspectable var horizontalGradient: Bool {
 		get {
-			let horizontalGradient = objc_getAssociatedObject(self, &gradientHorizontalAssociationKey) as? Bool
+			let horizontalGradient = objc_getAssociatedObject(self, &AssociatedKeys.GradientHorizontalKey) as? Bool
 			return horizontalGradient ?? false
 		}
 		set {
-			objc_setAssociatedObject(self, &gradientHorizontalAssociationKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_COPY_NONATOMIC)
+			objc_setAssociatedObject(self, &AssociatedKeys.GradientHorizontalKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
 			applyGradient()
 		}
 	}
