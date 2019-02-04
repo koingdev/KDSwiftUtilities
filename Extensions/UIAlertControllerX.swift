@@ -53,10 +53,6 @@ extension UIAlertController {
 		
 		private var alert: Alert! = Alert(title: "", message: "", preferredStyle: .alert)
 		
-		deinit {
-			print("GONE")
-		}
-		
 		@discardableResult
 		func withTitleAndMessage(title: String = "", message: Any = "") -> Self {
 			alert.title = title
