@@ -13,20 +13,20 @@ private var buttonLocalizeAssociationKey: UInt8 = 0
 
 extension UIButton {
 	
-    @IBInspectable
-    var localize: String {
-        get {
-            let localize = objc_getAssociatedObject(self, &buttonLocalizeAssociationKey) as? String
-            return localize ?? ""
-        }
-        set {
-            objc_setAssociatedObject(self, &buttonLocalizeAssociationKey, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
-            setTitle(localize.localized, for: .normal)
-        }
-    }
-    
-    // MARK: - Bouce
-    
+	@IBInspectable
+	var localize: String {
+		get {
+			let localize = objc_getAssociatedObject(self, &buttonLocalizeAssociationKey) as? String
+			return localize ?? ""
+		}
+		set {
+			objc_setAssociatedObject(self, &buttonLocalizeAssociationKey, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
+			setTitle(localize.localized, for: .normal)
+		}
+	}
+	
+	// MARK: - Bouce
+	
 	@IBInspectable
 	var bounceable: Bool {
 		get {

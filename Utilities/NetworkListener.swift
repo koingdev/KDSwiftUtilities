@@ -10,13 +10,13 @@ import Foundation
 import Reachability
 
 final class NetworkListener {
-    
+	
 	private let notification = Notification.Name("NetworkListenerStatusDidChanged")
 	private let reachability: Reachability!
-    /// Return true if connected to Internet
+	/// Return true if connected to Internet
 	private(set) var isConnected: Bool!
 	
-    init() {
+	init() {
 		guard let safeReachability = Reachability() else {
 			reachability = Reachability()
 			return
@@ -53,5 +53,5 @@ final class NetworkListener {
 			completion(self.isConnected)
 		}
 	}
-    
+	
 }
