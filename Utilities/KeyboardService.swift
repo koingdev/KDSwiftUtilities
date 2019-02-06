@@ -14,8 +14,9 @@ final class KeyboardLayoutConstraint: NSLayoutConstraint {
     
     @IBInspectable var inverted: Bool = false
     @IBInspectable var distanceFromKeyboard: CGFloat = 0
-    private var defaultConstant: CGFloat = 0
-    private var multiply: CGFloat = 1
+	private var multiply: CGFloat {
+		return inverted ? -1.0 : 1.0
+	}
     
     private var keyboardObserver: KeyboardObserver!
     
@@ -26,20 +27,16 @@ final class KeyboardLayoutConstraint: NSLayoutConstraint {
         if keyboardObserver != nil {
             return
         }
-        
-        defaultConstant = self.constant
-        multiply = firstAttribute == .centerY || secondAttribute == .centerX ? 0.5 : 1
-        
+		
         keyboardObserver = KeyboardObserver { [weak self] height in
             guard let self = self else { return }
             guard let view = (self.firstItem as? UIView) ?? self.secondItem as? UIView else {
                 dPrint("This LayoutConstraint doesn't have any UIView")
                 return
             }
-            
-            let multiplier = self.inverted ? -self.multiply : self.multiply
-            let newConstant = self.defaultConstant + height * multiplier + self.distanceFromKeyboard
-            
+			
+            let newConstant = (height * self.multiply) + self.distanceFromKeyboard
+			
             if newConstant != self.constant {
                 self.constant = newConstant
                 view.superview?.layoutIfNeeded()
@@ -50,7 +47,6 @@ final class KeyboardLayoutConstraint: NSLayoutConstraint {
 
 // MARK: Keyboard Observer
 
-#warning("TODO: KeyboardObserver ignore on rotate ?")
 final class KeyboardObserver: NSObject {
     
     fileprivate var keyboardWillChange: (CGFloat) -> Void
