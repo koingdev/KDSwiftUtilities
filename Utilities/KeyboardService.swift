@@ -30,16 +30,11 @@ final class KeyboardLayoutConstraint: NSLayoutConstraint {
 		
         keyboardObserver = KeyboardObserver { [weak self] height in
             guard let self = self else { return }
-            guard let view = (self.firstItem as? UIView) ?? self.secondItem as? UIView else {
-                dPrint("This LayoutConstraint doesn't have any UIView")
-                return
-            }
-			
             let newConstant = (height * self.multiply) + self.distanceFromKeyboard
 			
             if newConstant != self.constant {
                 self.constant = newConstant
-                view.superview?.layoutIfNeeded()
+                UIViewController.topMostViewController.view.layoutIfNeeded()
             }
         }
     }
