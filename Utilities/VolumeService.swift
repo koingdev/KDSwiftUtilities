@@ -68,6 +68,7 @@ final class VolumeService {
 		isProgrammaticallyChange = true
 		
 		guard let slider = self.volumeView.subviews.filter({ $0 is UISlider }).first as? UISlider else { return }
+		// Trick to hide the MPVolumeView when set volume
 		let hiddenView = UIView(frame: CGRect(x: -1000, y: 0, width: 0, height: 0))
 		UIApplication.shared.keyWindow?.addSubview(hiddenView)
 		hiddenView.addSubview(self.volumeView)
