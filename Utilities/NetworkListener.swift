@@ -26,7 +26,7 @@ final class NetworkListener {
 		// initialize connection state
 		isConnected = reachability.connection != .none
 		
-		NotificationCenter.default.addObserver(forName: Notification.Name.reachabilityChanged,
+		NotificationCenter.default.addObserver(forName: .reachabilityChanged,
 											   object: nil,
 											   queue: OperationQueue.main) { [weak self] notification in
 			guard let self = self else { return }
@@ -42,6 +42,11 @@ final class NetworkListener {
 		} catch {
 			dPrint("Could not start reachability notifier")
 		}
+	}
+	
+	deinit {
+		NotificationCenter.default.removeObserver(self, name: .reachabilityChanged, object: nil)
+		NotificationCenter.default.removeObserver(self, name: notification, object: nil)
 	}
 	
 	/// Start monitoring network status changed
