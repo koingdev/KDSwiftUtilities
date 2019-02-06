@@ -10,6 +10,8 @@ import Foundation
 
 final class Queue {
 	
+	static let background = DispatchQueue(label: "kd.queue.background")
+	
 	static func runAfter(_ delay: Double, completion: @escaping () -> Void) {
 		let deadline = DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
 		DispatchQueue.main.asyncAfter(deadline: deadline, execute: completion)
@@ -24,7 +26,7 @@ final class Queue {
 	}
 	
 	static func background(completion: @escaping () -> Void) {
-		DispatchQueue(label: "kd.queue.background").async(execute: completion)
+		background.async(execute: completion)
 	}
 	
 }
