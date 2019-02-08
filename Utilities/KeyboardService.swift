@@ -14,6 +14,7 @@ final class KeyboardLayoutConstraint: NSLayoutConstraint {
     
     @IBInspectable var inverted: Bool = false
     @IBInspectable var distanceFromKeyboard: CGFloat = 0
+	private var defaultConstant: CGFloat = 0
 	private var multiply: CGFloat {
 		return inverted ? -1.0 : 1.0
 	}
@@ -28,9 +29,11 @@ final class KeyboardLayoutConstraint: NSLayoutConstraint {
             return
         }
 		
+		defaultConstant = self.constant
+		
         keyboardObserver = KeyboardObserver { [weak self] height in
             guard let self = self else { return }
-            let newConstant = (height * self.multiply) + self.distanceFromKeyboard
+            let newConstant = (self.defaultConstant + height * self.multiply) + self.distanceFromKeyboard
 			
             if newConstant != self.constant {
                 self.constant = newConstant

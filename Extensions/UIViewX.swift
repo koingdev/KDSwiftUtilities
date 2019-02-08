@@ -24,11 +24,11 @@ extension UIView {
 	
 	// MARK: - Gradient
 	
-	fileprivate func applyGradient() {
+	func applyGradient(firstColor: UIColor, secondColor: UIColor, isHorizontal: Bool = false) {
 		let gradient = CAGradientLayer()
 		gradient.frame = bounds
 		gradient.colors = [firstColor.cgColor, secondColor.cgColor]
-		if horizontalGradient {
+		if isHorizontal {
 			gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
 			gradient.endPoint = CGPoint(x: 1.0, y: 0.5)
 		} else {
@@ -38,38 +38,38 @@ extension UIView {
 		layer.addSublayer(gradient)
 	}
 	
-	@IBInspectable var firstColor: UIColor {
-		get {
-			let firstColor = objc_getAssociatedObject(self, &AssociatedKeys.GradientFirstColorKey) as? UIColor
-			return firstColor ?? UIColor.clear
-		}
-		set {
-			objc_setAssociatedObject(self, &AssociatedKeys.GradientFirstColorKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-			applyGradient()
-		}
-	}
-
-	@IBInspectable var secondColor: UIColor {
-		get {
-			let secondColor = objc_getAssociatedObject(self, &AssociatedKeys.GradientSecondColorKey) as? UIColor
-			return secondColor ?? UIColor.clear
-		}
-		set {
-			objc_setAssociatedObject(self, &AssociatedKeys.GradientSecondColorKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-			applyGradient()
-		}
-	}
-
-	@IBInspectable var horizontalGradient: Bool {
-		get {
-			let horizontalGradient = objc_getAssociatedObject(self, &AssociatedKeys.GradientHorizontalKey) as? Bool
-			return horizontalGradient ?? false
-		}
-		set {
-			objc_setAssociatedObject(self, &AssociatedKeys.GradientHorizontalKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-			applyGradient()
-		}
-	}
+//	@IBInspectable var firstColor: UIColor {
+//		get {
+//			let firstColor = objc_getAssociatedObject(self, &AssociatedKeys.GradientFirstColorKey) as? UIColor
+//			return firstColor ?? UIColor.clear
+//		}
+//		set {
+//			objc_setAssociatedObject(self, &AssociatedKeys.GradientFirstColorKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+//			applyGradient()
+//		}
+//	}
+//
+//	@IBInspectable var secondColor: UIColor {
+//		get {
+//			let secondColor = objc_getAssociatedObject(self, &AssociatedKeys.GradientSecondColorKey) as? UIColor
+//			return secondColor ?? UIColor.clear
+//		}
+//		set {
+//			objc_setAssociatedObject(self, &AssociatedKeys.GradientSecondColorKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+//			applyGradient()
+//		}
+//	}
+//
+//	@IBInspectable var horizontalGradient: Bool {
+//		get {
+//			let horizontalGradient = objc_getAssociatedObject(self, &AssociatedKeys.GradientHorizontalKey) as? Bool
+//			return horizontalGradient ?? false
+//		}
+//		set {
+//			objc_setAssociatedObject(self, &AssociatedKeys.GradientHorizontalKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+//			applyGradient()
+//		}
+//	}
 	
 	// MARK: - Border
 	
