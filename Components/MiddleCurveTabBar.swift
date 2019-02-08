@@ -17,13 +17,13 @@ extension CGFloat {
 class MiddleCurveTabBar: UITabBar {
 	
 	private var shapeLayer: CALayer?
+	private let buttonRadius: CGFloat = 30
 	
 	override func draw(_ rect: CGRect) {
 		addShape()
 	}
 	
 	override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-		let buttonRadius: CGFloat = 35
 		return abs(center.x - point.x) > buttonRadius || abs(point.y) > buttonRadius
 	}
 	
@@ -46,7 +46,7 @@ class MiddleCurveTabBar: UITabBar {
 	// MARK: - Shapes
 	
 	func createCurvePath() -> CGPath {
-		let height: CGFloat = 37.0
+		let height: CGFloat = buttonRadius + 3
 		let path = UIBezierPath()
 		let centerWidth = frame.width / 2
 		
@@ -69,7 +69,7 @@ class MiddleCurveTabBar: UITabBar {
 	}
 	
 	func createCirclePath() -> CGPath {
-		let radius: CGFloat = 37.0
+		let radius: CGFloat = buttonRadius + 3
 		let path = UIBezierPath()
 		let centerWidth = frame.width / 2
 		
