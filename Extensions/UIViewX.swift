@@ -234,10 +234,16 @@ extension UIView {
 extension UIView {
 	
 	func fillSuperview() {
-		anchor(top: superview?.topAnchor, bottom: superview?.bottomAnchor, leading: superview?.leadingAnchor, trailing: superview?.trailingAnchor)
+		guard let superview = superview else {
+			Log.warning("No superview cannot fill superview constraint")
+			return
+		}
+		anchor(top: superview.topAnchor, bottom: superview.bottomAnchor, leading: superview.leadingAnchor, trailing: superview.trailingAnchor)
+		superview.layoutIfNeeded()
 	}
 	
 	func anchor(top: NSLayoutYAxisAnchor?, bottom: NSLayoutYAxisAnchor?, leading: NSLayoutXAxisAnchor?, trailing: NSLayoutXAxisAnchor?, margin: UIEdgeInsets = .zero, size: CGSize = .zero) {
+		translatesAutoresizingMaskIntoConstraints = false
 		if let top = top {
 			topAnchor.constraint(equalTo: top, constant: margin.top).isActive = true
 		}

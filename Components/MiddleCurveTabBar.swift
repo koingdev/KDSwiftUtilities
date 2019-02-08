@@ -23,9 +23,9 @@ class MiddleCurveTabBar: UITabBar {
 		addShape()
 	}
 	
-	override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-		return abs(center.x - point.x) > buttonRadius || abs(point.y) > buttonRadius
-	}
+//	override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+//		return abs(center.x - point.x) > buttonRadius || abs(point.y) > buttonRadius
+//	}
 	
 	private func addShape() {
 		let shapeLayer = CAShapeLayer()
