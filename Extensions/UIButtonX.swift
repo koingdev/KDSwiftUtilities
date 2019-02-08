@@ -46,19 +46,19 @@ extension UIButton {
 		}
 	}
 	
-	func enableBouncing() {
-		transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
-		UIView.animate(withDuration: 0.8, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 6, options: .allowUserInteraction, animations: {
-			// reset to default
-			self.transform = CGAffineTransform.identity
-		})
-	}
-	
 	override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 		if bounceable {
-			enableBouncing()
+			bounce()
 		}
 		super.touchesBegan(touches, with: event)
+	}
+	
+	func alignImageAndTitleVertically(padding: CGFloat = 3.0) {
+		guard let imageView = imageView, let titleLabel = titleLabel else { return }
+		let imageSize = imageView.frame.size
+		let titleSize = titleLabel.bounds.size
+		imageEdgeInsets = UIEdgeInsets(top: -(titleSize.height + padding), left: 0, bottom: 0, right: -titleSize.width)
+		titleEdgeInsets = UIEdgeInsets(top: imageSize.height + padding, left: -imageSize.width, bottom: 0, right: 0)
 	}
 	
 }
