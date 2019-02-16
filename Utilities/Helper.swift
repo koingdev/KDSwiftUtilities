@@ -10,6 +10,18 @@ import Foundation
 import UIKit.UIApplication
 import UserNotifications
 
+
+/// Return a new function that will be called only once after `delay` time passed between invocation
+func debounce(delay: TimeInterval, queue: DispatchQueue = .main, function: @escaping () -> Void) -> () -> Void {
+	var currentWorkItem: DispatchWorkItem?
+	return {
+		currentWorkItem?.cancel()
+		currentWorkItem = DispatchWorkItem { function() }
+		queue.asyncAfter(deadline: .now() + delay, execute: currentWorkItem!)
+	}
+}
+
+
 /// Check if user allows push notification or not
 ///
 /// - Parameter completion: Result callback (Background Thread).
