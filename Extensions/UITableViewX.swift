@@ -28,5 +28,24 @@ public extension UITableView {
         }
         return cell
     }
+	
+	enum TableViewAction {
+		case insert, delete, reload
+	}
+	
+	public func performAction(_ action: TableViewAction, at indexPath: IndexPath) {
+		Queue.main {
+			self.beginUpdates()
+			switch action {
+			case .insert:
+				self.insertRows(at: [indexPath], with: .fade)
+			case .delete:
+				self.deleteRows(at: [indexPath], with: .fade)
+			case .reload:
+				self.reloadRows(at: [indexPath], with: .fade)
+			}
+			self.endUpdates()
+		}
+	}
     
 }
