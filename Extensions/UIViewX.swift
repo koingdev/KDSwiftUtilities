@@ -22,6 +22,23 @@ extension UIView {
 
 extension UIView {
 	
+	func setCornerRadiusBy(sides: UIRectCorner, radius: CGFloat) {
+		let shadowPath = UIBezierPath(roundedRect: bounds, byRoundingCorners: sides, cornerRadii: CGSize(width: radius, height: radius)).cgPath
+		let mask = CAShapeLayer()
+		mask.path = shadowPath
+		layer.mask = mask
+	}
+	
+	func setShadowWithCornerRadius(cornerRadius: CGFloat) {
+		layer.cornerRadius = cornerRadius
+		let shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).cgPath
+		layer.masksToBounds = false
+		layer.shadowColor = UIColor.black.cgColor
+		layer.shadowOffset = CGSize(width: CGFloat(1.0), height: CGFloat(2.0))
+		layer.shadowOpacity = 0.5
+		layer.shadowPath = shadowPath
+	}
+	
 	// MARK: - Gradient
 	
 	func applyGradient(firstColor: UIColor, secondColor: UIColor, isHorizontal: Bool = false) {

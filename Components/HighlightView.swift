@@ -27,6 +27,7 @@ class HighlightView: UIView {
 		newHighlightView.frame = view.bounds
 		newHighlightView.fillSuperview()
 		newHighlightView.enabled = true
+		newHighlightView.cornerRadius = view.cornerRadius
 		newHighlightView.isExclusiveTouch = true
 		newHighlightView.isMultipleTouchEnabled = false
 		newHighlightView.isUserInteractionEnabled = true
