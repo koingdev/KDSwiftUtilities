@@ -22,6 +22,20 @@ extension UIView {
 
 extension UIView {
 	
+	func addTransparentHole(size: CGSize, radius: CGFloat, fillColor: UIColor = .black, opacity: Float = 0.5) {
+		let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height))
+		let holePath = UIBezierPath(roundedRect: CGRect(x: bounds.size.width / 2 - size.width / 2, y: bounds.size.height / 2 - size.height / 2, width: size.width, height: size.height), cornerRadius: radius)
+		path.append(holePath)
+		path.usesEvenOddFillRule = true
+		
+		let fillLayer = CAShapeLayer()
+		fillLayer.path = path.cgPath
+		fillLayer.fillRule = .evenOdd
+		fillLayer.fillColor = fillColor.cgColor
+		fillLayer.opacity = 0.5
+		layer.addSublayer(fillLayer)
+	}
+	
 	func setCornerRadiusBy(sides: UIRectCorner, radius: CGFloat) {
 		let shadowPath = UIBezierPath(roundedRect: bounds, byRoundingCorners: sides, cornerRadii: CGSize(width: radius, height: radius)).cgPath
 		let mask = CAShapeLayer()
@@ -31,12 +45,10 @@ extension UIView {
 	
 	func setShadowWithCornerRadius(cornerRadius: CGFloat, shadowOffset: CGSize, shadowOpacity: Float = 0.5) {
 		layer.cornerRadius = cornerRadius
-		let shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).cgPath
 		layer.masksToBounds = false
 		layer.shadowColor = UIColor.black.cgColor
 		layer.shadowOffset = shadowOffset
 		layer.shadowOpacity = shadowOpacity
-		layer.shadowPath = shadowPath
 	}
 	
 	// MARK: - Gradient
