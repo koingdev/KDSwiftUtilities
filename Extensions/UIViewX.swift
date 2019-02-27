@@ -22,6 +22,37 @@ extension UIView {
 
 extension UIView {
 	
+	// MARK: - Transparent Hole
+	
+	func addTransparentHole(size: CGSize, radius: CGFloat, fillColor: UIColor = .black, opacity: Float = 0.5) {
+		let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height))
+		let holePath = UIBezierPath(roundedRect: CGRect(x: bounds.size.width / 2 - size.width / 2, y: bounds.size.height / 2 - size.height / 2, width: size.width, height: size.height), cornerRadius: radius)
+		path.append(holePath)
+		path.usesEvenOddFillRule = true
+		
+		let fillLayer = CAShapeLayer()
+		fillLayer.path = path.cgPath
+		fillLayer.fillRule = .evenOdd
+		fillLayer.fillColor = fillColor.cgColor
+		fillLayer.opacity = 0.5
+		layer.addSublayer(fillLayer)
+	}
+	
+	func addHeartShapeTransparentHole(size: CGSize, fillColor: UIColor = .black, opacity: Float = 0.5) {
+		let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height))
+		let holePath = UIBezierPath(heartIn: CGRect(x: bounds.size.width / 2 - size.width / 2, y: bounds.size.height / 2 - size.height / 2, width: size.width, height: size.height))
+		
+		path.append(holePath)
+		path.usesEvenOddFillRule = true
+		
+		let fillLayer = CAShapeLayer()
+		fillLayer.path = path.cgPath
+		fillLayer.fillRule = .evenOdd
+		fillLayer.fillColor = fillColor.cgColor
+		fillLayer.opacity = 0.5
+		layer.addSublayer(fillLayer)
+	}
+	
 	func setCornerRadiusBy(sides: UIRectCorner, radius: CGFloat) {
 		let shadowPath = UIBezierPath(roundedRect: bounds, byRoundingCorners: sides, cornerRadii: CGSize(width: radius, height: radius)).cgPath
 		let mask = CAShapeLayer()
@@ -31,12 +62,10 @@ extension UIView {
 	
 	func setShadowWithCornerRadius(cornerRadius: CGFloat, shadowOffset: CGSize, shadowOpacity: Float = 0.5) {
 		layer.cornerRadius = cornerRadius
-		let shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).cgPath
 		layer.masksToBounds = false
 		layer.shadowColor = UIColor.black.cgColor
 		layer.shadowOffset = shadowOffset
 		layer.shadowOpacity = shadowOpacity
-		layer.shadowPath = shadowPath
 	}
 	
 	// MARK: - Gradient
@@ -54,39 +83,6 @@ extension UIView {
 		}
 		layer.addSublayer(gradient)
 	}
-	
-//	@IBInspectable var firstColor: UIColor {
-//		get {
-//			let firstColor = objc_getAssociatedObject(self, &AssociatedKeys.GradientFirstColorKey) as? UIColor
-//			return firstColor ?? UIColor.clear
-//		}
-//		set {
-//			objc_setAssociatedObject(self, &AssociatedKeys.GradientFirstColorKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-//			applyGradient()
-//		}
-//	}
-//
-//	@IBInspectable var secondColor: UIColor {
-//		get {
-//			let secondColor = objc_getAssociatedObject(self, &AssociatedKeys.GradientSecondColorKey) as? UIColor
-//			return secondColor ?? UIColor.clear
-//		}
-//		set {
-//			objc_setAssociatedObject(self, &AssociatedKeys.GradientSecondColorKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-//			applyGradient()
-//		}
-//	}
-//
-//	@IBInspectable var horizontalGradient: Bool {
-//		get {
-//			let horizontalGradient = objc_getAssociatedObject(self, &AssociatedKeys.GradientHorizontalKey) as? Bool
-//			return horizontalGradient ?? false
-//		}
-//		set {
-//			objc_setAssociatedObject(self, &AssociatedKeys.GradientHorizontalKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-//			applyGradient()
-//		}
-//	}
 	
 	// MARK: - Border
 	
