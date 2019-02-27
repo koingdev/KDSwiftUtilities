@@ -56,7 +56,12 @@ extension Storyboarder where Self: UIViewController {
 ////////////////////////////////////////////////////////////////
 
 extension UIViewController: Storyboarder {
-    
+	
+	func changeTabBarFontSize(font: UIFont = .systemFont(ofSize: 12)) {
+		UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
+		UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: font], for: .selected)
+	}
+	
     public func add(childVC: UIViewController, to wrapper: UIView) {
 		addChild(childVC)
         wrapper.addSubview(childVC.view)

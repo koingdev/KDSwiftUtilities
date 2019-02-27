@@ -6,7 +6,7 @@
 //  Copyright © 2019 KoingDev. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 extension Int {
 	

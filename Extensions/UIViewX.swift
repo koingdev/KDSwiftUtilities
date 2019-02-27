@@ -22,6 +22,35 @@ extension UIView {
 
 extension UIView {
 	
+	var width: CGFloat {
+		get {
+			return frame.size.width
+		}
+		set {
+			frame.size.width = newValue
+		}
+	}
+	
+	var height: CGFloat {
+		get {
+			return frame.size.height
+		}
+		set {
+			frame.size.height = newValue
+		}
+	}
+	
+	var parentViewController: UIViewController? {
+		var parentResponder: UIResponder? = self
+		while let responder = parentResponder {
+			parentResponder = responder.next
+			if let viewController = parentResponder as? UIViewController {
+				return viewController
+			}
+		}
+		return nil
+	}
+	
 	// MARK: - Transparent Hole
 	
 	func addTransparentHole(size: CGSize, radius: CGFloat, fillColor: UIColor = .black, opacity: Float = 0.5) {
@@ -34,7 +63,7 @@ extension UIView {
 		fillLayer.path = path.cgPath
 		fillLayer.fillRule = .evenOdd
 		fillLayer.fillColor = fillColor.cgColor
-		fillLayer.opacity = 0.5
+		fillLayer.opacity = opacity
 		layer.addSublayer(fillLayer)
 	}
 	
@@ -49,7 +78,7 @@ extension UIView {
 		fillLayer.path = path.cgPath
 		fillLayer.fillRule = .evenOdd
 		fillLayer.fillColor = fillColor.cgColor
-		fillLayer.opacity = 0.5
+		fillLayer.opacity = opacity
 		layer.addSublayer(fillLayer)
 	}
 	

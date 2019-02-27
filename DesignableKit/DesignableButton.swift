@@ -39,10 +39,10 @@ class DesignableButton: UIButton {
 	}
 	
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-		super.touchesBegan(touches, with: event)
 		animateOnTouchBegin()
+		super.touchesBegan(touches, with: event)
 	}
-	
+
 	override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
 		guard let touch = touches.first else { return }
 		if bounds.contains(touch.location(in: self)) {
@@ -51,15 +51,15 @@ class DesignableButton: UIButton {
 			animateOnTouchEnd()
 		}
 	}
-	
+
 	override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+		animateOnTouchEnd()
 		super.touchesCancelled(touches, with: event)
-		animateOnTouchEnd()
 	}
-	
+
 	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-		super.touchesEnded(touches, with: event)
 		animateOnTouchEnd()
+		super.touchesEnded(touches, with: event)
 	}
 	
 	// MARK: - Gradient
