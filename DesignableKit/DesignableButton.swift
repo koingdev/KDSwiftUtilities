@@ -9,7 +9,58 @@
 import UIKit
 
 @IBDesignable
-final class DesignableButton: UIButton {
+class DesignableButton: UIButton {
+	
+	override func awakeFromNib() {
+		super.awakeFromNib()
+	}
+	
+	// MARK: - Bouce
+	
+	@IBInspectable
+	var animateOnTouch: Bool = false
+	
+	private func animateOnTouchBegin() {
+		if animateOnTouch {
+			UIView.animate(withDuration: 0.3, delay: 0, options: [.allowUserInteraction, .curveEaseOut], animations: {
+				self.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+				self.alpha = 0.7
+			})
+		}
+	}
+	
+	private func animateOnTouchEnd() {
+		if animateOnTouch {
+			UIView.animate(withDuration: 0.3, delay: 0, options: [.allowUserInteraction, .curveEaseIn], animations: {
+				self.transform = CGAffineTransform.identity.scaledBy(x: 1.0, y: 1.0)
+				self.alpha = 1.0
+			})
+		}
+	}
+	
+	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+		super.touchesBegan(touches, with: event)
+		animateOnTouchBegin()
+	}
+	
+	override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+		guard let touch = touches.first else { return }
+		if bounds.contains(touch.location(in: self)) {
+			animateOnTouchBegin()
+		} else {
+			animateOnTouchEnd()
+		}
+	}
+	
+	override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+		super.touchesCancelled(touches, with: event)
+		animateOnTouchEnd()
+	}
+	
+	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+		super.touchesEnded(touches, with: event)
+		animateOnTouchEnd()
+	}
 	
 	// MARK: - Gradient
 	

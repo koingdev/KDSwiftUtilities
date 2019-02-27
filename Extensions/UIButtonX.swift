@@ -13,7 +13,6 @@ import UIKit
 extension UIButton {
 	
 	fileprivate struct AssociatedKeys {
-		static var BounceableKey: UInt8 = 0
 		static var LocalizationKey: UInt8 = 0
 	}
 	
@@ -31,26 +30,6 @@ extension UIButton {
 			objc_setAssociatedObject(self, &AssociatedKeys.LocalizationKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
 			setTitle(localize.localized, for: .normal)
 		}
-	}
-	
-	// MARK: - Bouce
-	
-	@IBInspectable
-	var bounceable: Bool {
-		get {
-			let bounceable = objc_getAssociatedObject(self, &AssociatedKeys.BounceableKey) as? Bool
-			return bounceable ?? false
-		}
-		set {
-			objc_setAssociatedObject(self, &AssociatedKeys.BounceableKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-		}
-	}
-	
-	override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-		if bounceable {
-			bounce()
-		}
-		super.touchesBegan(touches, with: event)
 	}
 	
 	func alignImageAndTitleVertically(padding: CGFloat = 3.0) {
