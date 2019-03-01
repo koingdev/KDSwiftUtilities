@@ -8,7 +8,7 @@
 
 import RealmSwift
 
-protocol RealmOperation {
+protocol RealmDatabase {
 	
 	var realm: Realm { get }
 	var notificationToken: NotificationToken? { get set }
@@ -19,7 +19,7 @@ protocol RealmOperation {
 	func delete(object: Object, completion: () -> Void)
 }
 
-final class RealmService: RealmOperation {
+final class RealmService: RealmDatabase {
 	
 	lazy var realm = try! Realm()
 	var notificationToken: NotificationToken?

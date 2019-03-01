@@ -11,16 +11,13 @@ import UIKit
 extension UITabBarController {
 	
 	func setMiddleButton(_ button: UIButton) {
-		let heightDifference: CGFloat = button.height - tabBar.frame.size.height
-		if heightDifference < 0 {
-			button.center = tabBar.center
-		} else {
-			var center: CGPoint = tabBar.center
-			center.y = center.y - heightDifference / 2.0
-			button.center = center
-		}
-		
 		view.addSubview(button)
+		AutoLayoutBuilder(button)
+			.bottomTo(view.layoutMarginsGuide.bottomAnchor)
+			.centerXTo(view.centerXAnchor)
+			.width(value: button.width)
+			.height(value: button.height)
+			.build()
 	}
 	
 }
