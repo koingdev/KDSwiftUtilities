@@ -8,12 +8,15 @@
 
 import UIKit
 
-////////////////////////////////////////////////////////////////
-//MARK: -
-//MARK: Styler
-//MARK: -
-////////////////////////////////////////////////////////////////
+/**
+Flexible and faster way to style your View
 
+Example:
+```swift
+let label = UILabel()
+label.styling(UIColor.blue.style, UIFont.boldSystemFont(ofSize: 18).style)
+```
+*/
 protocol UIComponentStyler: AnyObject {
 	var styleFont: UIFont! { get set }
 	var styleTextColor: UIColor! { get set }
@@ -50,6 +53,8 @@ extension UIFont {
 	}
 }
 
+// More style to add here...
+
 ////////////////////////////////////////////////////////////////
 //MARK: -
 //MARK: Implement UIComponentStyler (on UIKit)
@@ -83,3 +88,5 @@ extension UITextField: UIComponentStyler {
 	}
 	
 }
+
+// More component to add here...

@@ -8,6 +8,19 @@
 
 import UIKit
 
+/**
+Builder Pattern way to write AutoLayout code
+
+Example:
+```swift
+AutoLayoutBuilder(button)
+	.bottomTo(view.layoutMarginsGuide.bottomAnchor)
+	.centerXTo(view.centerXAnchor)
+	.width(value: button.width)
+	.height(value: button.height)
+	.build()
+```
+*/
 struct AutoLayoutBuilder {
 	
 	let view: UIView
