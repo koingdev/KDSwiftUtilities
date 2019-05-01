@@ -34,7 +34,7 @@ public extension UITableView {
 	}
 	
 	public func performAction(_ action: TableViewAction, at indexPath: IndexPath) {
-		Queue.main {
+		DispatchQueue.main.async {
 			self.beginUpdates()
 			switch action {
 			case .insert:
