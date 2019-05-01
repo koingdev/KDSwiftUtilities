@@ -12,9 +12,9 @@ extension UIAlertController {
 	
 	// MARK: - Typealias
 	
-	public typealias Alert = UIAlertController
-	public typealias Action = UIAlertAction
-	public typealias Block = ((Alert) -> Void)?
+	typealias Alert = UIAlertController
+	typealias Action = UIAlertAction
+	typealias Block = ((Alert) -> Void)?
 	
 	// MARK: - Static function
 	
@@ -101,8 +101,8 @@ extension UIAlertController {
 		}
 		
 		func show(completion: (() -> Void)? = nil) {
-			Queue.main {
-				UIViewController.topMostViewController.present(self.alert, animated: true, completion: completion)
+			DispatchQueue.main.async {
+				UIApplication.shared.keyWindow?.rootViewController?.present(self.alert, animated: true, completion: completion)
 			}
 		}
 		
