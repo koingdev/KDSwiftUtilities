@@ -11,6 +11,8 @@ Useful Swift extensions, utilities classes and reusable components by KoingDev
 - NetworkListener.swift
 - Queue.swift
 - RealmService.swift
+- Debounce.swift
+- UIControlEventHandler.swift
 - UIComponentStyler.swift
 - VolumeService.swift
 - WeakObj.swift
@@ -18,6 +20,7 @@ Useful Swift extensions, utilities classes and reusable components by KoingDev
 > Extensions
 - IntX.swift
 - StringX.swift
+- OptionalX.swift
 - UIAlertControllerX.swift
 - UIBezierPathX.swift
 - UIButtonX.swift
@@ -31,6 +34,3 @@ Useful Swift extensions, utilities classes and reusable components by KoingDev
 
 > DesignableKit
 - DesignableButton.swift
-
-> Components
-- HighlightView.swift
